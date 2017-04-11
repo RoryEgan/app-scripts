@@ -53,5 +53,4 @@
       $response["success"] = false;
       echo json_encode($response);
     }
-    echo "string";
 ?>
