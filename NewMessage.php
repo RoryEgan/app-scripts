@@ -11,7 +11,9 @@ if($connection) {
   $targetPhoneNumber = $db -> quote($_POST["TargetNumber"]);
   $targetID = "";
 
-  function getTargetID($targetID, $targetPhoneNumber) {
+  function getTargetID() {
+    
+    global $targetPhoneNumber, $targetID;
 
     $sql = "SELECT UserID
             FROM User
