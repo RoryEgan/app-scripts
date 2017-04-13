@@ -9,20 +9,17 @@ if($connection) {
   $senderID = $db -> quote($_POST["SenderID"]);
   $content = $db -> quote($_POST["Content"]);
   $targetPhoneNumber = $db -> quote($_POST["TargetNumber"]);
-  $targetID = getTargetID();
+  $targetID = "";
 
-  function getTargetID() {
-
-    global $targetPhoneNumber;
-
+  function getTargetID($targetID, $targetPhoneNumber) {
 
     $sql = "SELECT UserID
             FROM User
             WHERE PhoneNumber = '$targetPhoneNumber'";
 
     $targetID = $db -> query($sql);
-    return $targetID;
   }
+  getTargetID($targetID, $targetPhoneNumber);
 
   function sendMessage() {
 
@@ -44,11 +41,9 @@ if($connection) {
   $response = array();
   $response["success"] = false;
 
-  if(getTargetID()) {
-    if(sendMessage()) {
-      $response["success"] = true;
-      $response["UserID"] = $db -> getLastInsertID();
-    }
+  if(sendMessage()) {
+    $response["success"] = true;
+    $response["UserID"] = $db -> getLastInsertID();
   }
 
   echo json_encode($response);
