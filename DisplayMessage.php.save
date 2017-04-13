@@ -22,8 +22,7 @@
       $content = $result[5]['Content'];
       $response["success"] = true;
       $response['MessageID'] = $messageID;
-      $response['SentDate'] = $sentDate;
-      $response['Content'] = $content;
+      $response
       echo json_encode($response, JSON_FORCE_OBJECT);
     }
     else{
