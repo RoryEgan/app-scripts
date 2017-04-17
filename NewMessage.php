@@ -57,10 +57,8 @@ if($connection) {
 
     global $senderID, $targetID, $db;
 
-    error_log("MESSAGE ID IS: '$messageID' TARGET ID IS: '$targetID' SENDER ID IS: '$senderID'");
-
     $updateQuery = "UPDATE Message
-	         SET ThreadID = (SELECT ThreadID
+	   SET ThreadID = (SELECT ThreadID
 		 FROM Thread
 		 WHERE Thread.UserOne = Message.TargetID
 		 AND Thread.UserTwo = Message.SenderID)
@@ -126,8 +124,6 @@ if($connection) {
       return true;
       $one = count($result1);
       $two = count($result2);
-
-      error_log("Result 1: '$one' Result 2: '$two'");
     }
 
   }
@@ -156,11 +152,9 @@ if($connection) {
     }
 
     if(!$isBackwards) {
-      error_log("message id is: '$messageID'");
         updateMessageThreadIDOne($messageID);
     }
     else if($isBackwards) {
-      error_log("message id is: '$messageID'");
       updateMessageThreadIDTwo($messageID);
     }
 
