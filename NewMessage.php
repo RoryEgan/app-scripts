@@ -61,8 +61,8 @@ if($connection) {
 		 FROM Thread
 		 WHERE Thread.UserOne = Message.TargetID
 		 AND Thread.UserTwo = Message.SenderID)
-     WHERE SenderID = '$senderID'
-     AND TargetID = '$targetID';";
+     WHERE SenderID = '$targetID'
+     AND TargetID = '$senderID';";
 
     $db->query($updateQuery);
   }
