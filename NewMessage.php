@@ -144,7 +144,8 @@ if($connection) {
 
     $query = "SELECT MessageID
               FROM Message
-              WHERE ThreadID = '$threadID';";
+              WHERE ThreadID = '$threadID'
+              AND Content = '$content';";
     $results = $db->query($query);
     $messageID = $results[0]['MessageID'];
 
