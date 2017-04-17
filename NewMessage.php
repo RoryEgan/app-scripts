@@ -83,7 +83,10 @@ if($connection) {
     WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
     $result2 = $db -> select($query2);
 
-    if(mysqli_num_rows($result1) == 0 || mysqli_num_rows($result2) == 0) {
+    $numRows1 = $result1->num_rows;
+    $numRows2 = $result2->num_rows;
+
+    if($numRows1 == 0 ||$numRows2 == 0) {
 
      insertNewThread();
 
