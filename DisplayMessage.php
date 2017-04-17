@@ -8,7 +8,7 @@
 
     $userID = $db -> quote($_POST['UserID']);
 
-    $sql = "SELECT * FROM Message WHERE SenderID = '$userID';";
+    $sql = "SELECT * FROM Message WHERE SenderID = 1;";
 
     $result = $db -> select($sql);
 
