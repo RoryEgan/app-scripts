@@ -87,7 +87,11 @@ if($connection) {
 
     if(count($result1) < 1 && count($result2) < 1) {
 
-      error_log("First Condition! 1: '$one' 2: '$two'");
+      return false;
+
+    }
+    else if(count($result1) >= 1 && count($result2) < 1) {
+
       return false;
 
     }
