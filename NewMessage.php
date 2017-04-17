@@ -91,6 +91,11 @@ if($connection) {
       return false;
 
     }
+    else if(count($result2) < 1) {
+
+      return false;
+
+    }
     else if(count($result2) >= 1) {
 
       error_log("Second Condition! 1: '$one' 2: '$two'");
