@@ -55,6 +55,8 @@ if($connection) {
 
   function updateMessageThreadIDTwo($messageID) {
 
+    error_log("MESSAGE ID IS: '$messageID' TARGET ID IS: '$targetID' SENDER ID IS: '$senderID'");
+
     global $senderID, $targetID, $db;
 
     $updateQuery = "UPDATE Message
@@ -146,7 +148,7 @@ if($connection) {
               FROM Message
               WHERE ThreadID = '$threadID'
               AND Content = '$content';";
-    $results = $db->query($query);
+    $results = $db->select($query);
     $messageID = $results[0]['MessageID'];
 
     if(!$threadExists) {
