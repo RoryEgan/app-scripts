@@ -4,6 +4,9 @@ include('DatabaseController.class.php');
 $db = new DatabaseController();
 $connection = $db -> connect();
 
+$link = mysql_connect("localhost", "root", "");
+mysql_select_db("messagingDB", $link);
+
 if($connection) {
 
   $threadID = $db -> quote($_POST["ThreadID"]);
@@ -66,7 +69,7 @@ if($connection) {
 		 WHERE Thread.UserOne = Message.SenderID
 		 AND Thread.UserTwo = Message.TargetID);";
 
-    $db -> query($updateQuery);
+    $db->query($updateQuery);
   }
 
   function newThread() {
@@ -76,15 +79,15 @@ if($connection) {
     $query1 = "SELECT MessageID
     FROM Message
     WHERE SenderID = '$senderID' AND TargetID = '$targetID';";
-    $result1 = $db -> select($query1);
+    $result1 = mysql_query($query1, $link);
 
     $query2 = "SELECT MessageID
     FROM Message
     WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
-    $result2 = $db -> select($query2);
+    $result2 = mysql_query($query2, $link);
 
-    $numRows1 = $result1->num_rows;
-    $numRows2 = $result2->num_rows;
+    $numRows1 = mysqli_num_rows($result1);
+    $numRows2 = mysqli_num_rows($result2);
 
     if($numRows1 == 0 ||$numRows2 == 0) {
 
