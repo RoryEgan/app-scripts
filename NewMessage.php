@@ -48,6 +48,7 @@ if($connection) {
     $checkSender = $result1[0]['SenderID'];
 
     if($checkSender === $senderID) {
+      error_log("First one, checkSender: '$checkSender' Sender: '$senderID'");
       $updateQuery = "UPDATE Message
   	         SET ThreadID = (SELECT ThreadID
   		 FROM Thread
@@ -60,6 +61,7 @@ if($connection) {
       $db->query($updateQuery);
     }
     else {
+      error_log("Second one, checkSender: '$checkSender' Sender: '$senderID'");
       $updateQuery = "UPDATE Message
   	   SET ThreadID = (SELECT ThreadID
   		 FROM Thread
