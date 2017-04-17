@@ -108,7 +108,6 @@ if($connection) {
     global $threadID, $senderID, $targetID, $content, $db;
 
     $threadExists = newThread();
-    $isBackwards = checkIfBackwards();
 
     $sql = "INSERT INTO Message
     (MessageID, ThreadID, SenderID, TargetID, Content)
