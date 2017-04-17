@@ -45,7 +45,9 @@ if($connection) {
 	         SET ThreadID = (SELECT ThreadID
 		 FROM Thread
 		 WHERE Thread.UserOne = Message.SenderID
-		 AND Thread.UserTwo = Message.TargetID);";
+		 AND Thread.UserTwo = Message.TargetID
+     AND Thread.UserOne = '$senderID'
+     AND Thread.UserTwo = '$targetID');";
 
     $db->query($updateQuery);
   }
@@ -58,7 +60,9 @@ if($connection) {
 	         SET ThreadID = (SELECT ThreadID
 		 FROM Thread
 		 WHERE Thread.UserOne = Message.TargetID
-		 AND Thread.UserTwo = Message.SenderID);";
+		 AND Thread.UserTwo = Message.SenderID
+     AND Thread.UserOne = '$targetID'
+     AND Thread.UserTwo = '$senderID');";
 
     $db->query($updateQuery);
   }
