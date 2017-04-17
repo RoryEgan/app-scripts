@@ -55,15 +55,15 @@ if($connection) {
 
   function updateMessageThreadIDTwo($messageID) {
 
-    error_log("MESSAGE ID IS: '$messageID' TARGET ID IS: '$targetID' SENDER ID IS: '$senderID'");
-
     global $senderID, $targetID, $db;
+
+    error_log("MESSAGE ID IS: '$messageID' TARGET ID IS: '$targetID' SENDER ID IS: '$senderID'");
 
     $updateQuery = "UPDATE Message
 	         SET ThreadID = (SELECT ThreadID
 		 FROM Thread
-		 WHERE Thread.UserOne = Message.TargetID
-		 AND Thread.UserTwo = Message.SenderID)
+		 WHERE Thread.UserOne = Message.SenderID
+		 AND Thread.UserTwo = Message.TargetID)
      WHERE SenderID = '$targetID'
      AND TargetID = '$senderID'
      AND MessageID = '$messageID';";
