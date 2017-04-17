@@ -2,17 +2,14 @@
 
 include('DatabaseController.class.php');
 $db = new DatabaseController();
-$connection = $db -> connect();
-
-$link = mysql_connect("localhost", "root", "");
-mysql_select_db("messagingDB", $link);
+$connection = $db->connect();
 
 if($connection) {
 
-  $threadID = $db -> quote($_POST["ThreadID"]);
-  $senderID = $db -> quote($_POST["SenderID"]);
-  $content = $db -> quote($_POST["Content"]);
-  $targetPhoneNumber = $db -> quote($_POST["TargetNumber"]);
+  $threadID = $db->quote($_POST["ThreadID"]);
+  $senderID = $db->quote($_POST["SenderID"]);
+  $content = $db->quote($_POST["Content"]);
+  $targetPhoneNumber = $db->quote($_POST["TargetNumber"]);
   $targetID = "0";
 
   function getTargetID() {
@@ -22,7 +19,7 @@ if($connection) {
     $sql = "SELECT UserID
     FROM User
     WHERE PhoneNumber = '$targetPhoneNumber';";
-    $returned = $db -> select($sql);
+    $returned = $db->select($sql);
     $targetID = $returned[0]['UserID'];
 
     return $targetID;
@@ -37,7 +34,7 @@ if($connection) {
     $sql = "INSERT INTO Message
     (MessageID, ThreadID, SenderID, TargetID, Content)
     VALUES ('0', '$threadID', '$senderID', '$targetID', '$content');";
-    $result = $db -> query($sql);
+    $result = $db->query($sql);
 
     if($result) {
       return true;
@@ -56,7 +53,7 @@ if($connection) {
     $insertion = "INSERT INTO Thread
     (ThreadID, UserOne, UserTwo)
     VALUES ('0', '$senderID', '$targetID');";
-    $db -> query($insertion);
+    $db->query($insertion);
   }
 
   function updateMessageThreadID() {
@@ -79,26 +76,20 @@ if($connection) {
     $query1 = "SELECT MessageID
     FROM Message
     WHERE SenderID = '$senderID' AND TargetID = '$targetID';";
-    $result1 = mysql_query($query1, $link);
+    $result1 = $db->select($query1);
 
     $query2 = "SELECT MessageID
     FROM Message
     WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
-    $result2 = mysql_query($query2, $link);
+    $result2 = $db->select($query2);
 
-    $numRows1 = mysqli_num_rows($result1);
-    $numRows2 = mysqli_num_rows($result2);
-
-    if($numRows1 == 0 ||$numRows2 == 0) {
+    if($result1 === null || $result2 === null) {
 
      insertNewThread();
 
-   }
-   else {
+    }
 
-   }
-
-   updateMessageThreadID();
+    updateMessageThreadID();
 
 
   }
