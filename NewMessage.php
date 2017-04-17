@@ -80,16 +80,18 @@ if($connection) {
     FROM Message
     WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
     $result2 = $db->select($query2);
+    $one = count($result1);
+    $two = count($result2);
 
     if(count($result1) < 1 && count($result2) < 1) {
 
-      error_log("First Condition! 1: '$result1' 2: '$result2'");
+      error_log("First Condition! 1: '$one' 2: '$two'");
       return false;
 
     }
     else if(count($result1) < 1 && count($result2) >= 1) {
 
-      error_log("Second Condition! 1: '$result1' 2: '$result2'");
+      error_log("Second Condition! 1: '$one' 2: '$two'");
       return true;
 
     }
