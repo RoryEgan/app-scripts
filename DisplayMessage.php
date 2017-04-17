@@ -7,8 +7,25 @@
     $db = new DatabaseController();
 
     $userID = $db -> quote($_POST['UserID']);
+    $targetNumber = $db -> quote($_POST['TargetNumber']);
+    $targetID = "0";
 
-    $sql = "SELECT * FROM Message WHERE SenderID = 1;";
+    function getTargetID() {
+
+      global $targetPhoneNumber, $targetID,  $db;
+
+      $sql = "SELECT UserID
+      FROM User
+      WHERE PhoneNumber = '$targetPhoneNumber';";
+      $returned = $db -> select($sql);
+      $targetID = $returned[0]['UserID'];
+
+      return $targetID;
+    }
+
+    $targetID = getTargetID();
+
+    $sql = "SELECT * FROM Message WHERE SenderID = '$userID' AND TargetID = '$targetID';";
 
     $result = $db -> select($sql);
 
