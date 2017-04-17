@@ -83,7 +83,7 @@ if($connection) {
     WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
     $result2 = $db->select($query2);
 
-    if($result1 === null || $result2 === null) {
+    if(empty($result1) || empty($result2)) {
 
      insertNewThread();
 
