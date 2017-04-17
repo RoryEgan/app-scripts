@@ -37,77 +37,43 @@ if($connection) {
     $db->query($insertion);
   }
 
-  function updateMessageThreadIDOne($messageID) {
+  function updateMessageThreadID($messageID) {
 
     global $senderID, $targetID, $db;
 
-    $updateQuery = "UPDATE Message
-	         SET ThreadID = (SELECT ThreadID
-		 FROM Thread
-		 WHERE Thread.UserOne = Message.SenderID
-		 AND Thread.UserTwo = Message.TargetID)
-     WHERE SenderID = '$senderID'
-     AND TargetID = '$targetID'
-     AND MessageID = '$messageID';";
-
-    $db->query($updateQuery);
-  }
-
-  function updateMessageThreadIDTwo($messageID) {
-
-    global $senderID, $targetID, $db;
-
-    $updateQuery = "UPDATE Message
-	   SET ThreadID = (SELECT ThreadID
-		 FROM Thread
-		 WHERE Thread.UserOne = Message.TargetID
-		 AND Thread.UserTwo = Message.SenderID)
-     WHERE SenderID = '$senderID'
-     AND TargetID = '$targetID'
-     AND MessageID = '$messageID';";
-
-    $db->query($updateQuery);
-  }
-
-  function checkIfBackwards() {
-
-    global $senderID, $targetID, $db;
-
-    $query1 = "SELECT *
+    $query1 = "SELECT SenderID
     FROM Message
-    WHERE SenderID = '$senderID' AND TargetID = '$targetID';";
+    WHERE MessageID = '$messageID';";
     $result1 = $db->select($query1);
+    $checkSender = $result1[0]['SenderID'];
 
-    $query2 = "SELECT *
-    FROM Message
-    WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
-    $result2 = $db->select($query2);
-    $one = count($result1);
-    $two = count($result2);
+    if($checkSender === $senderID) {
+      $updateQuery = "UPDATE Message
+  	         SET ThreadID = (SELECT ThreadID
+  		 FROM Thread
+  		 WHERE Thread.UserOne = Message.SenderID
+  		 AND Thread.UserTwo = Message.TargetID)
+       WHERE SenderID = '$senderID'
+       AND TargetID = '$targetID'
+       AND MessageID = '$messageID';";
 
-    if(count($result1) < 1 && count($result2) < 1) {
-
-      return false;
-
+      $db->query($updateQuery);
     }
-    else if(count($result1) >= 1 && count($result2) < 1) {
+    else {
+      $updateQuery = "UPDATE Message
+  	   SET ThreadID = (SELECT ThreadID
+  		 FROM Thread
+  		 WHERE Thread.UserOne = Message.TargetID
+  		 AND Thread.UserTwo = Message.SenderID)
+       WHERE SenderID = '$senderID'
+       AND TargetID = '$targetID'
+       AND MessageID = '$messageID';";
 
-      return false;
-
-    }
-    else if(count($result2) < 1) {
-
-      return false;
-
-    }
-    else if(count($result2) >= 1) {
-
-      error_log("Second Condition! 1: '$one' 2: '$two'");
-      return true;
-
+      $db->query($updateQuery);
     }
 
   }
+
 
   function newThread() {
 
@@ -160,12 +126,7 @@ if($connection) {
       insertNewThread();
     }
 
-    if(!$isBackwards) {
-        updateMessageThreadIDOne($messageID);
-    }
-    else if($isBackwards) {
-      updateMessageThreadIDTwo($messageID);
-    }
+    updateMessageThreadID($messageID);
 
     if($result) {
       return true;
