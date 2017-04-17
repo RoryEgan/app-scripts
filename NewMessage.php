@@ -145,7 +145,8 @@ if($connection) {
     $query = "SELECT MessageID
               FROM Message
               WHERE ThreadID = '$threadID';";
-    $messageID = $db->query($sql);
+    $results = $db->query($query);
+    $messageID = $results[0]['MessageID'];
 
     if(!$threadExists) {
       insertNewThread();
