@@ -83,13 +83,16 @@ if($connection) {
     WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
     $result2 = $db->select($query2);
 
-    if(empty($result1) && empty($result2)) {
+    if(count($result1) < 1 && count($result2) < 1) {
 
      insertNewThread();
 
     }
     else {
-      error_log("Result 1: '$result1' Result 2: '$result2'");
+      $one = count($result1);
+      $two = count($result2);
+
+      error_log("Result 1: '$one' Result 2: '$two'");
     }
 
     updateMessageThreadID();
