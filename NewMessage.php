@@ -37,7 +37,7 @@ if($connection) {
     $db->query($insertion);
   }
 
-  function updateMessageThreadID() {
+  function updateMessageThreadIDOne() {
 
     global $senderID, $targetID, $db;
 
@@ -48,6 +48,45 @@ if($connection) {
 		 AND Thread.UserTwo = Message.TargetID);";
 
     $db->query($updateQuery);
+  }
+
+  function updateMessageThreadIDTwo() {
+
+    global $senderID, $targetID, $db;
+
+    $updateQuery = "UPDATE Message
+	         SET ThreadID = (SELECT ThreadID
+		 FROM Thread
+		 WHERE Thread.UserOne = Message.TargetID
+		 AND Thread.UserTwo = Message.SenderID);";
+
+    $db->query($updateQuery);
+  }
+
+  function checkIfBackwards() {
+
+    global $senderID, $targetID, $db;
+
+    $query1 = "SELECT *
+    FROM Message
+    WHERE SenderID = '$senderID' AND TargetID = '$targetID';";
+    $result1 = $db->select($query1);
+
+    $query2 = "SELECT *
+    FROM Message
+    WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
+    $result2 = $db->select($query2);
+
+    if(count($result1) < 1 && count($result2) < 1) {
+
+      return false;
+
+    }
+    else if(count($result1) < 1 && count($result2) >= 1) {
+
+      return true;
+    }
+
   }
 
   function newThread() {
@@ -85,6 +124,7 @@ if($connection) {
     global $threadID, $senderID, $targetID, $content, $db;
 
     $threadExists = newThread();
+    $isBackwards = checkIfBackwards();
 
     $sql = "INSERT INTO Message
     (MessageID, ThreadID, SenderID, TargetID, Content)
@@ -95,7 +135,12 @@ if($connection) {
       insertNewThread();
     }
 
-    updateMessageThreadID();
+    if(!$isBackwards) {
+        updateMessageThreadIDOne();
+    }
+    else if($isBackwards) {
+      updateMessageThreadIDTwo();
+    }
 
     if($result) {
       return true;
