@@ -73,20 +73,23 @@ if($connection) {
 
     global $senderID, $targetID, $db;
 
-    $query1 = "SELECT MessageID
+    $query1 = "SELECT *
     FROM Message
     WHERE SenderID = '$senderID' AND TargetID = '$targetID';";
     $result1 = $db->select($query1);
 
-    $query2 = "SELECT MessageID
+    $query2 = "SELECT *
     FROM Message
     WHERE SenderID = '$targetID' AND TargetID = '$senderID';";
     $result2 = $db->select($query2);
 
-    if(empty($result1) || empty($result2)) {
+    if(empty($result1) && empty($result2)) {
 
      insertNewThread();
 
+    }
+    else {
+      error_log("Result 1: '$result1' Result 2: '$result2'");
     }
 
     updateMessageThreadID();
