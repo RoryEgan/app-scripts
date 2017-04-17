@@ -27,25 +27,6 @@ if($connection) {
 
   $targetID = getTargetID();
 
-  function sendMessage() {
-
-    global $threadID, $senderID, $targetID, $content, $db;
-
-    $sql = "INSERT INTO Message
-    (MessageID, ThreadID, SenderID, TargetID, Content)
-    VALUES ('0', '$threadID', '$senderID', '$targetID', '$content');";
-    $result = $db->query($sql);
-
-    if($result) {
-      return true;
-    }
-
-    else {
-      return false;
-
-    }
-  }
-
   function insertNewThread() {
 
     global $senderID, $targetID, $db;
@@ -85,26 +66,51 @@ if($connection) {
 
     if(count($result1) < 1 && count($result2) < 1) {
 
-     insertNewThread();
+      return false;
 
     }
     else {
+
+      return true;
       $one = count($result1);
       $two = count($result2);
 
       error_log("Result 1: '$one' Result 2: '$two'");
     }
 
+  }
+
+  function sendMessage() {
+
+    global $threadID, $senderID, $targetID, $content, $db;
+
+    $threadExists = newThread();
+
+    $sql = "INSERT INTO Message
+    (MessageID, ThreadID, SenderID, TargetID, Content)
+    VALUES ('0', '$threadID', '$senderID', '$targetID', '$content');";
+    $result = $db->query($sql);
+
+    if(!$threadExists) {
+      insertNewThread();
+    }
+
     updateMessageThreadID();
 
+    if($result) {
+      return true;
+    }
 
+    else {
+      return false;
+
+    }
   }
 
   $response = array();
   $response["success"] = false;
 
   if(sendMessage()) {
-    newThread();
     $response["success"] = true;
     $response["UserID"] = $db -> getLastInsertID();
 
