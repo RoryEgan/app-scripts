@@ -62,10 +62,10 @@ if($connection) {
     $updateQuery = "UPDATE Message
 	         SET ThreadID = (SELECT ThreadID
 		 FROM Thread
-		 WHERE Thread.UserOne = Message.SenderID
-		 AND Thread.UserTwo = Message.TargetID)
-     WHERE SenderID = '$targetID'
-     AND TargetID = '$senderID'
+		 WHERE Thread.UserOne = Message.TargetID
+		 AND Thread.UserTwo = Message.SenderID)
+     WHERE SenderID = '$senderID'
+     AND TargetID = '$targetID'
      AND MessageID = '$messageID';";
 
     $db->query($updateQuery);
@@ -93,7 +93,7 @@ if($connection) {
       return false;
 
     }
-    else if(count($result1) < 1 && count($result2) >= 1) {
+    else if(count($result2) >= 1) {
 
       error_log("Second Condition! 1: '$one' 2: '$two'");
       return true;
