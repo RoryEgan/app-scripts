@@ -140,15 +140,23 @@ if($connection) {
     VALUES ('0', '$threadID', '$senderID', '$targetID', '$content');";
     $result = $db->query($sql);
 
+    $query = "SELECT MessageID
+              FROM Message
+              WHERE ThreadID = '$threadID';";
+    $resultTwo = $db->query($sql);
+    $messageID = $resultTwo[0]['MessageID'];
+
     if(!$threadExists) {
       insertNewThread();
     }
 
     if(!$isBackwards) {
-        updateMessageThreadIDOne();
+      error_log("message id is: '$messageID'");
+        updateMessageThreadIDOne($messageID);
     }
     else if($isBackwards) {
-      updateMessageThreadIDTwo();
+      error_log("message id is: '$messageID'");
+      updateMessageThreadIDTwo($messageID);
     }
 
     if($result) {
