@@ -83,12 +83,15 @@ if($connection) {
 
     if(count($result1) < 1 && count($result2) < 1) {
 
+      error_log("First Condition! 1: '$result1' 2: '$result2'");
       return false;
 
     }
     else if(count($result1) < 1 && count($result2) >= 1) {
 
+      error_log("Second Condition! 1: '$result1' 2: '$result2'");
       return true;
+
     }
 
   }
