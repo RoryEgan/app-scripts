@@ -44,16 +44,16 @@ if($connection) {
     $query1 = "SELECT SenderID
     FROM Message
     WHERE MessageID = '$messageID';";
-    $result1 = $db->select($query1);
-    $checkSender = $result1;
+    $result1 = $db->query($query1);
+    $checkSender = $result1[0]['SenderID'];
 
     $query2 = "SELECT UserOne
     FROM Thread, Message
     WHERE MessageID = '$messageID'
     AND Thread.ThreadID = Message.ThreadID;";
 
-    $result2 = $db->select($query2);
-    $checkUser = $result2;
+    $result2 = $db->query($query2);
+    $checkUser = $result2[0]['UserOne'];
 
     if($checkSender === $checkUser) {
       error_log("First one, checkSender: '$checkSender' User: '$checkUser'");
