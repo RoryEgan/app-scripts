@@ -37,7 +37,7 @@ if($connection) {
     $db->query($insertion);
   }
 
-  function updateMessageThreadIDOne() {
+  function updateMessageThreadIDOne($messageID) {
 
     global $senderID, $targetID, $db;
 
@@ -47,12 +47,13 @@ if($connection) {
 		 WHERE Thread.UserOne = Message.SenderID
 		 AND Thread.UserTwo = Message.TargetID)
      WHERE SenderID = '$senderID'
-     AND TargetID = '$targetID';";
+     AND TargetID = '$targetID'
+     AND MessageID = '$messageID';";
 
     $db->query($updateQuery);
   }
 
-  function updateMessageThreadIDTwo() {
+  function updateMessageThreadIDTwo($messageID) {
 
     global $senderID, $targetID, $db;
 
@@ -62,7 +63,8 @@ if($connection) {
 		 WHERE Thread.UserOne = Message.TargetID
 		 AND Thread.UserTwo = Message.SenderID)
      WHERE SenderID = '$targetID'
-     AND TargetID = '$senderID';";
+     AND TargetID = '$senderID'
+     AND MessageID = '$messageID';";
 
     $db->query($updateQuery);
   }
@@ -143,8 +145,7 @@ if($connection) {
     $query = "SELECT MessageID
               FROM Message
               WHERE ThreadID = '$threadID';";
-    $resultTwo = $db->query($sql);
-    $messageID = $resultTwo[0]['MessageID'];
+    $messageID = $db->query($sql);
 
     if(!$threadExists) {
       insertNewThread();
