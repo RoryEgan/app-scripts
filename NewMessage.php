@@ -31,56 +31,34 @@ if($connection) {
 
     global $senderID, $targetID, $db;
 
-    $insertion = "INSERT INTO Thread
+    $insertion1 = "INSERT INTO Thread
     (ThreadID, UserOne, UserTwo)
     VALUES ('0', '$senderID', '$targetID');";
-    $db->query($insertion);
+    $db->query($insertion1);
+
+    $insertion2 = "INSERT INTO ThreadUser
+    (ThreadID, UserID)
+    VALUES ('0', '$senderID');";
+    $db->query($insertion2);
+
+    $insertion2 = "INSERT INTO ThreadUser
+    (ThreadID, UserID)
+    VALUES ('0', '$targetID');";
+    $db->query($insertion2);
   }
 
   function updateMessageThreadID($messageID) {
 
     global $senderID, $targetID, $db;
 
-    $query1 = "SELECT SenderID
-    FROM Message
-    WHERE MessageID = '$messageID';";
-    $result1 = $db->select($query1);
-    $checkSender = $result1[0]['SenderID'];
 
-    $query2 = "SELECT UserOne
-    FROM Thread, Message
-    WHERE MessageID = '$messageID'
-    AND (Message.SenderID = Thread.UserOne AND Message.TargetID = Thread.UserTwo);";
-
-    $result2 = $db->select($query2);
-    $checkUser = $result2[0]['UserOne'];
-
-    if($checkSender === $checkUser) {
-      error_log("First one, checkSender: '$checkSender' User: '$checkUser'");
       $updateQuery = "UPDATE Message
   	         SET ThreadID = (SELECT ThreadID
-  		 FROM Thread
-  		 WHERE Thread.UserOne = Message.SenderID
-  		 AND Thread.UserTwo = Message.TargetID)
-       WHERE SenderID = '$senderID'
-       AND TargetID = '$targetID'
-       AND MessageID = '$messageID';";
+  		 FROM ThreadUser
+  		 WHERE ThreadUser.UserID = Message.SenderID)
+       WHERE MessageID = '$messageID';";
 
       $db->query($updateQuery);
-    }
-    else {
-      error_log("Second one, checkSender: '$checkSender' User: '$checkUser'");
-      $updateQuery = "UPDATE Message
-  	   SET ThreadID = (SELECT ThreadID
-  		 FROM Thread
-  		 WHERE Thread.UserOne = Message.SenderID
-  		 AND Thread.UserTwo = Message.TargetID)
-       WHERE SenderID = '$targetID'
-       AND TargetID = '$senderID'
-       AND MessageID = '$messageID';";
-
-      $db->query($updateQuery);
-    }
 
   }
 
