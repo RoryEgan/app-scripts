@@ -50,7 +50,7 @@ if($connection) {
     $query2 = "SELECT UserOne
     FROM Thread, Message
     WHERE MessageID = '$messageID'
-    AND Thread.ThreadID = Message.ThreadID;";
+    AND (Message.SenderID = Thread.UserTwo AND Message.TargetID = Thread.UserOne);";
 
     $result2 = $db->select($query2);
     $checkUser = $result2[0];
@@ -73,10 +73,10 @@ if($connection) {
       $updateQuery = "UPDATE Message
   	   SET ThreadID = (SELECT ThreadID
   		 FROM Thread
-  		 WHERE Thread.UserOne = Message.TargetID
-  		 AND Thread.UserTwo = Message.SenderID)
-       WHERE SenderID = '$senderID'
-       AND TargetID = '$targetID'
+  		 WHERE Thread.UserOne = Message.SenderID
+  		 AND Thread.UserTwo = Message.TargetID)
+       WHERE SenderID = '$targetID'
+       AND TargetID = '$senderID'
        AND MessageID = '$messageID';";
 
       $db->query($updateQuery);
