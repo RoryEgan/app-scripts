@@ -62,7 +62,8 @@ if($connection) {
       $getNewThreadID = "SELECT ThreadUser.ThreadID
         FROM ThreadUser, Message
         WHERE ThreadUser.UserID = Message.SenderID
-        OR ThreadUser.UserID = Message.TargetID;";
+        OR ThreadUser.UserID = Message.TargetID
+        AND MessageID = '$messageID';";
       $returned = $db->select($getNewThreadID);
       $newThreadID = $returned[0]['ThreadID'];
 
