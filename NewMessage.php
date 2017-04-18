@@ -59,11 +59,15 @@ if($connection) {
 
     global $senderID, $targetID, $db;
 
+      $getNewThreadID = "SELECT ThreadUser.ThreadID
+        FROM ThreadUser, Message
+        WHERE ThreadUser.UserID = Message.SenderID
+        OR ThreadUser.UserID = Message.TargetID;";
+      $returned = $db->select($getNewThreadID);
+      $newThreadID = $returned[0]['ThreadID'];
 
       $updateQuery = "UPDATE Message
-  	         SET ThreadID = (SELECT ThreadUser.ThreadID
-  		 FROM ThreadUser, Message
-  		 WHERE ThreadUser.UserID = Message.SenderID OR ThreadUser.UserID = Message.TargetID)
+  	         SET ThreadID = '$newThreadID'
        WHERE MessageID = '$messageID';";
 
       $db->query($updateQuery);
