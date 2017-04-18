@@ -50,7 +50,7 @@ if($connection) {
     $query2 = "SELECT UserOne
     FROM Thread, Message
     WHERE MessageID = '$messageID'
-    AND (Message.SenderID = Thread.UserTwo AND Message.TargetID = Thread.UserOne);";
+    AND (Message.SenderID = Thread.UserOne AND Message.TargetID = Thread.UserTwo);";
 
     $result2 = $db->select($query2);
     $checkUser = $result2[0]['UserOne'];
