@@ -61,7 +61,8 @@ if($connection) {
 
       $getNewThreadID = "SELECT ThreadUser.ThreadID
         FROM ThreadUser, Message
-        WHERE ThreadUser.ThreadID = Message.ThreadID
+        WHERE (ThreadUser.UserID = Message.SenderID
+        OR ThreadUser.UserID = Message.TargetID)
         AND Message.MessageID = '$messageID'
         AND(ThreadUser.UserID = Message.SenderID
         OR ThreadUser.UserID = Message.TargetID);";
