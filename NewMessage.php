@@ -61,9 +61,9 @@ if($connection) {
 
 
       $updateQuery = "UPDATE Message
-  	         SET ThreadID = (SELECT ThreadID
-  		 FROM ThreadUser
-  		 WHERE (ThreadUser.UserID = Message.SenderID AND ThreadUser.UserID = Message.TargetID))
+  	         SET ThreadID = (SELECT ThreadUser.ThreadID
+  		 FROM ThreadUser, Message
+  		 WHERE ThreadUser.UserID = Message.SenderID OR ThreadUser.UserID = Message.TargetID)
        WHERE MessageID = '$messageID';";
 
       $db->query($updateQuery);
