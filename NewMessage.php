@@ -36,15 +36,23 @@ if($connection) {
     VALUES ('0', '$senderID', '$targetID');";
     $db->query($insertion1);
 
-    $insertion2 = "INSERT INTO ThreadUser
-    (ThreadID, UserID)
-    VALUES ('0', '$senderID');";
-    $db->query($insertion2);
+    $getThreadIDQuery = "SELECT ThreadID
+    FROM Thread
+    WHERE (UserOne = '$senderID' AND UserTwo = '$targetID')
+    OR (UserOne = '$targetID' AND UserTwo = '$senderID');";
+    $returned = $$db->select($getThreadIDQuery);
+    $threadID = $returned[0]['ThreadID'];
+    error_log("ThreadID is: '$threadID'");
 
     $insertion2 = "INSERT INTO ThreadUser
     (ThreadID, UserID)
-    VALUES ('0', '$targetID');";
+    VALUES ('$threadID', '$senderID');";
     $db->query($insertion2);
+
+    $insertion3 = "INSERT INTO ThreadUser
+    (ThreadID, UserID)
+    VALUES ('$threadID', '$targetID');";
+    $db->query($insertion3);
   }
 
   function updateMessageThreadID($messageID) {
