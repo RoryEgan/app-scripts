@@ -45,7 +45,7 @@ if($connection) {
     FROM Message
     WHERE MessageID = '$messageID';";
     $result1 = $db->select($query1);
-    $checkSender = $result1[0];
+    $checkSender = $result1[0]['SenderID'];
 
     $query2 = "SELECT UserOne
     FROM Thread, Message
@@ -53,7 +53,7 @@ if($connection) {
     AND (Message.SenderID = Thread.UserTwo AND Message.TargetID = Thread.UserOne);";
 
     $result2 = $db->select($query2);
-    $checkUser = $result2[0];
+    $checkUser = $result2[0]['UserOne'];
 
     if($checkSender === $checkUser) {
       error_log("First one, checkSender: '$checkSender' User: '$checkUser'");
