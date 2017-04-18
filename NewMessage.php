@@ -40,7 +40,7 @@ if($connection) {
     FROM Thread
     WHERE (UserOne = '$senderID' AND UserTwo = '$targetID')
     OR (UserOne = '$targetID' AND UserTwo = '$senderID');";
-    $returned = $$db->select($getThreadIDQuery);
+    $returned = $db->select($getThreadIDQuery);
     $threadID = $returned[0]['ThreadID'];
     error_log("ThreadID is: '$threadID'");
 
@@ -63,7 +63,7 @@ if($connection) {
       $updateQuery = "UPDATE Message
   	         SET ThreadID = (SELECT ThreadID
   		 FROM ThreadUser
-  		 WHERE ThreadUser.UserID = Message.SenderID)
+  		 WHERE (ThreadUser.UserID = Message.SenderID AND ThreadUser.UserID = Message.TargetID))
        WHERE MessageID = '$messageID';";
 
       $db->query($updateQuery);
