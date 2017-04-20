@@ -59,11 +59,14 @@ if($connection) {
 
     global $senderID, $targetID, $db;
 
-      $getNewThreadID = "SELECT Thread.ThreadID
-      FROM Thread, Message
-      WHERE (Thread.UserOne = Message.SenderID AND Thread.UserTwo = Message.TargetID)
-      OR (Thread.UserOne = Message.TargetID AND Thread.UserTwo = Message.SenderID)
-      AND Message.MessageID = '$messageID';";
+      $getNewThreadID = "SELECT DISTINCT Thread.ThreadID
+      FROM Thread, Message, ThreadUser
+      WHERE Thread.ThreadID = ThreadUser.ThreadID
+      AND Message.MessageID = '$messageID'
+      AND Message.SenderID = '$senderID'
+      AND Message.TargetID = '$targetID'
+      AND Message.SenderID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserOne)
+      AND Message.TargetID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserTwo);";
 
 
 
