@@ -59,17 +59,9 @@ if($connection) {
 
     global $senderID, $targetID, $db;
 
-      $getNewThreadID = "SELECT DISTINCT Thread.ThreadID
-      FROM Thread, Message, ThreadUser
-      WHERE Thread.ThreadID = ThreadUser.ThreadID
-      AND Message.MessageID = '$messageID'
-      AND Message.SenderID = '$senderID'
-      AND Message.TargetID = '$targetID'
-      AND Message.SenderID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserOne)
-      AND Message.TargetID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserTwo)
-      OR  Message.SenderID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserTwo)
-      AND Message.TargetID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserOne);";
-
+      $getNewThreadID = "SELECT ThreadID FROM Thread WHERE
+      (UserOne = '$targetID' AND UserTwo = '$senderID')
+      OR (UserOne = '$senderID' AND UserTwo = '$targetID');";
 
 
       $returned = $db->select($getNewThreadID);
