@@ -66,7 +66,9 @@ if($connection) {
       AND Message.SenderID = '$senderID'
       AND Message.TargetID = '$targetID'
       AND Message.SenderID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserOne)
-      AND Message.TargetID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserTwo);";
+      AND Message.TargetID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserTwo)
+      OR  Message.SenderID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserTwo)
+      AND Message.TargetID IN (SELECT UserID FROM ThreadUser WHERE UserID = Thread.UserOne);";
 
 
 
