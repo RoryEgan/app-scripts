@@ -20,14 +20,16 @@ if(isset($_POST['UserID'])) {
     $res = array();
     $response['success'] = true;
     $var = sizeOf($result);
-    error_log("ARRAY SIZE: '$var'");
     for($i = 0; $i <= sizeof($result); $i++) {
-      error_log("POSITION IN ARRAY: '$i'");
-      error_log($result[$i]['ThreadID']);
-      $res[$i] = array($result[$i]['ThreadID'], $result[$i]['UpdatedAt'] ,
-      $result[$i]['UserOne'], $result[$i]['UserTwo']);
+      $res1[$i] = array($result[$i]['ThreadID']);
+      $res2[$i] = array($result[$i]['UpdatedAt']);
+      $res3[$i] = array($result[$i]['UserOne']);
+      $res4[$i] = array($result[$i]['UserTwo']);
     }
-    $response['result'] = $res;
+    $response['ThreadIDArray'] = $res1;
+    $response['UpdatedAtArray'] = $res2;
+    $response['UserOneArray'] = $res3;
+    $response['UserTwoArray'] = $res4;
   }
   else{
     echo "{'success': false}";
