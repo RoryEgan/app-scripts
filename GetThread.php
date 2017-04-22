@@ -21,8 +21,9 @@ if(isset($_POST['UserID'])) {
     $response['success'] = true;
     $var = sizeOf($result);
     error_log("ARRAY SIZE: '$var'");
-    for($i = 0; $i < sizeof($result); $i++) {
+    for($i = 0; $i <= sizeof($result); $i++) {
       error_log("POSITION IN ARRAY: '$i'");
+      error_log($result[$i]['ThreadID']);
       $res[$i] = array($result[$i]['ThreadID'], $result[$i]['UpdatedAt'] ,
       $result[$i]['UserOne'], $result[$i]['UserTwo']);
     }
