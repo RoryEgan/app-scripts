@@ -19,7 +19,9 @@ if(isset($_POST['UserID'])) {
   if($result) {
     $res = array();
     $response['success'] = true;
+    $var = sizeOf($result);
     for($i = 0; $i < sizeof($result); $i++) {
+      error_log("ARRAY SIZE: '$var'");
       $res[$i] = array($result[$i]['ThreadIDArray'], $result[$i]['UpdatedAtArray'] ,
       $result[$i]['UserOneArray'], $result[$i]['UserTwoArray']);
     }
