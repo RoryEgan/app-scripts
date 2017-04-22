@@ -20,7 +20,7 @@ if(isset($_POST['UserID'])) {
     $res = array();
     $response['success'] = true;
     $var = sizeOf($result);
-    for($i = 0; $i <= sizeof($result); $i++) {
+    for($i = 0; $i < sizeof($result); $i++) {
       $res1[$i] = array($result[$i]['ThreadID']);
       $res2[$i] = array($result[$i]['UpdatedAt']);
       $res3[$i] = array($result[$i]['UserOne']);
