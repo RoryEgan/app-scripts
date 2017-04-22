@@ -20,8 +20,8 @@ if(isset($_POST['UserID'])) {
     $res = array();
     $response['success'] = true;
     for($i = 0; $i < sizeof($result); $i++) {
-      $res[$i] = array($result[$i]['ThreadID'], $result[$i]['UpdatedAt'] ,
-      $result[$i]['UserOne'], $result[$i]['UserTwo']);
+      $res[$i] = array($result[$i]['ThreadIDArray'], $result[$i]['UpdatedAtArray'] ,
+      $result[$i]['UserOneArray'], $result[$i]['UserTwoArray']);
     }
     $response['result'] = $res;
   }
