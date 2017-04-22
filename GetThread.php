@@ -3,6 +3,9 @@ include('DatabaseController.class.php');
 $db = new DatabaseController();
 $connection = $db -> connect();
 
+$response = array();
+$response['success'] = false;
+
 if(isset($_POST['UserID'])) {
 
   $userID = $db->quote($_POST['UserID']);
@@ -12,16 +15,15 @@ if(isset($_POST['UserID'])) {
   OR (UserTwo = '$userID');";
 
   $result = $db->select($sqlSelect);
-  $response["success"] = false;
-  
+
   if($result) {
-    $response = array();
+    $res = array();
     $response['success'] = true;
     for($i = 0; $i < sizeof($result); $i++) {
-      $response[$i] = array($result[$i]['ThreadID'], $result[$i]['UpdatedAt'] ,
+      $res[$i] = array($result[$i]['ThreadID'], $result[$i]['UpdatedAt'] ,
       $result[$i]['UserOne'], $result[$i]['UserTwo']);
     }
-    $response['result'] = $result;
+    $response['result'] = $res;
   }
   else{
     echo "{'success': false}";
@@ -30,4 +32,5 @@ if(isset($_POST['UserID'])) {
 else{
   echo "{'success': false}";
 }
+echo json_encode($response);
 ?>
