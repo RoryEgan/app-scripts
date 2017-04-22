@@ -20,10 +20,11 @@ if(isset($_POST['UserID'])) {
     $res = array();
     $response['success'] = true;
     $var = sizeOf($result);
+    error_log("ARRAY SIZE: '$var'");
     for($i = 0; $i < sizeof($result); $i++) {
-      error_log("ARRAY SIZE: '$var'");
-      $res[$i] = array($result[$i]['ThreadIDArray'], $result[$i]['UpdatedAtArray'] ,
-      $result[$i]['UserOneArray'], $result[$i]['UserTwoArray']);
+      error_log("POSITION IN ARRAY: '$i'");
+      $res[$i] = array($result[$i]['ThreadID'], $result[$i]['UpdatedAt'] ,
+      $result[$i]['UserOne'], $result[$i]['UserTwo']);
     }
     $response['result'] = $res;
   }
