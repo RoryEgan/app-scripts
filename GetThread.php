@@ -1,39 +1,33 @@
 <?php
-    include('DatabaseController.class.php');
-    $db = new DatabaseController();
-    $connection = $db -> connect();
+include('DatabaseController.class.php');
+$db = new DatabaseController();
+$connection = $db -> connect();
 
-    if(isset($_POST['UserID'])) {
+if(isset($_POST['UserID'])) {
 
-      $userID = $db->quote($_POST['UserID']);
+  $userID = $db->quote($_POST['UserID']);
 
-      $sqlSelect = "SELECT * FROM Thread
-      WHERE (UserOne = '$userID')
-      OR (UserTwo = '$userID');";
+  $sqlSelect = "SELECT * FROM Thread
+  WHERE (UserOne = '$userID')
+  OR (UserTwo = '$userID');";
 
-      $result = $db->select($sqlSelect);
-      $threadID = $result[0]['ThreadID'];
-      $updatedAt = $result[1]['UpdatedAt'];
-      $userOne = $result[2]['UserOne'];
-      $userTwo = $result[3]['UserTwo'];
-
-      $response = array();
-
-      $response["success"] = false;
-
-      if($result) {
-        $response["success"] = true;
-        $response["ThreadID"] = $threadID;
-        $response["UpdatedAt"] = $updatedAt;
-        $response["UserOne"] = $userOne;
-        $response["UserTwo"] = $userTwo;
-        echo  json_encode($response, JSON_FORCE_OBJECT);
-      }
-      else{
-             echo "{'success': false}";
-      }
+  $result = $db->select($sqlSelect);
+  $response["success"] = false;
+  
+  if($result) {
+    $response = array();
+    $response['success'] = true;
+    for($i = 0; $i < sizeof($result); $i++) {
+      $response[$i] = array($result[$i]['ThreadID'], $result[$i]['UpdatedAt'] ,
+      $result[$i]['UserOne'], $result[$i]['UserTwo']);
     }
-    else{
-      echo "{'success': false}";
-    }
+    $response['result'] = $result;
+  }
+  else{
+    echo "{'success': false}";
+  }
+}
+else{
+  echo "{'success': false}";
+}
 ?>
