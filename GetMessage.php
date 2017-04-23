@@ -6,9 +6,9 @@ $connection = $db -> connect();
 $response = array();
 $response['success'] = false;
 
-if(isset($_GET['ThreadID'])) {
+if(isset($_POST['ThreadID'])) {
 
-  $threadID = $db->quote($_GET['ThreadID']);
+  $threadID = $db->quote($_POST['ThreadID']);
 
   $sqlSelect = "SELECT * FROM Message WHERE ThreadID = '$threadID';";
 
