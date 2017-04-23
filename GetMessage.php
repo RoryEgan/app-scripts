@@ -40,4 +40,6 @@
     else{
       echo "{'success': false}";
     }
+
+    echo json_encode($response);
 ?>
