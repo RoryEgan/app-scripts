@@ -6,9 +6,9 @@ $connection = $db -> connect();
 $response = array();
 $response['success'] = false;
 
-if(isset($_POST['UserID'])) {
+if(isset($_GET['UserID'])) {
 
-  $userID = $db->quote($_POST['UserID']);
+  $userID = $db->quote($_GET['UserID']);
 
   $sqlSelect = "SELECT * FROM Thread
   WHERE (UserOne = '$userID')
