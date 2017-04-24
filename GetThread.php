@@ -21,10 +21,10 @@ if(isset($_GET['UserID'])) {
     $response['success'] = true;
     $var = sizeOf($result);
     for($i = 0; $i < sizeof($result); $i++) {
-      $res1[$i] = array($result[$i]['ThreadID']);
-      $res2[$i] = array($result[$i]['UpdatedAt']);
-      $res3[$i] = array($result[$i]['UserOne']);
-      $res4[$i] = array($result[$i]['UserTwo']);
+      $res1[$i] = $result[$i]['ThreadID'];
+      $res2[$i] = $result[$i]['UpdatedAt'];
+      $res3[$i] = $result[$i]['UserOne'];
+      $res4[$i] = $result[$i]['UserTwo'];
     }
     $response['ThreadIDArray'] = $res1;
     $response['UpdatedAtArray'] = $res2;
