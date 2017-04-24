@@ -19,12 +19,12 @@ if(isset($_GET['ThreadID'])) {
     $response['success'] = true;
     $var = sizeOf($result);
     for($i = 0; $i < sizeof($result); $i++) {
-      $res1[$i] = array($result[$i]['MessageID']);
-      $res2[$i] = array($result[$i]['ThreadID']);
-      $res3[$i] = array($result[$i]['SenderID']);
-      $res4[$i] = array($result[$i]['TargetID']);
-      $res5[$i] = array($result[$i]['SentDate']);
-      $res6[$i] = array($result[$i]['Content']);
+      $res1[$i] = $result[$i]['MessageID'];
+      $res2[$i] = $result[$i]['ThreadID'];
+      $res3[$i] = $result[$i]['SenderID'];
+      $res4[$i] = $result[$i]['TargetID'];
+      $res5[$i] = $result[$i]['SentDate'];
+      $res6[$i] = $result[$i]['Content'];
     }
     $response['MessageIDArray'] = $res1;
     $response['ThreadIDArray'] = $res2;
