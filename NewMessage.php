@@ -3,13 +3,15 @@
 include('DatabaseController.class.php');
 $db = new DatabaseController();
 $connection = $db->connect();
+$response = array();
+$response['success'] = false;
 
 if($connection) {
 
-  $threadID = $db->quote($_POST["ThreadID"]);
-  $senderID = $db->quote($_POST["SenderID"]);
-  $content = $db->quote($_POST["Content"]);
-  $targetPhoneNumber = $db->quote($_POST["TargetNumber"]);
+  $threadID = $db->quote($_GET["ThreadID"]);
+  $senderID = $db->quote($_GET["SenderID"]);
+  $content = $db->quote($_GET["Content"]);
+  $targetPhoneNumber = $db->quote($_GET["TargetNumber"]);
   $targetID = "0";
 
   function getTargetID() {
@@ -138,18 +140,10 @@ if($connection) {
     }
   }
 
-  $response = array();
-  $response["success"] = false;
-
   if(sendMessage()) {
     $response["success"] = true;
     $response["UserID"] = $db -> getLastInsertID();
-
   }
-  echo json_encode($response);
 }
-else {
-  $response["success"] = false;
-  echo json_encode($response);
-}
+echo json_encode($response);
 ?>
